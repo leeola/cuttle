@@ -1,0 +1,8 @@
+[package]
+name = "cuttle_blender_api"
+version = "0.1.0"
+edition = "2021"
+authors = ["Lee Olayvar <leegit@fastmail.com>"]
+license-file = "../LICENSE"
+
+[dependencies]
