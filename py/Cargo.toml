@@ -6,6 +6,12 @@ authors = ["Lee Olayvar <leegit@fastmail.com>"]
 license-file = "../LICENSE"
 
 [dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+cuttle = { path = "../cuttle" }
+
+[lib]
+name = "cuttle_py"
+crate-type = ["cdylib"]
 
 [lints]
 workspace = true
