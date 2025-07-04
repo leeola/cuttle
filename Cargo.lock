@@ -57,6 +57,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "cuttle"
+version = "0.1.0"
+
+[[package]]
 name = "cuttle_blender_api"
 version = "0.1.0"
 
@@ -69,6 +73,10 @@ dependencies = [
  "serde",
  "serde_json",
 ]
+
+[[package]]
+name = "cuttle_py"
+version = "0.1.0"
 
 [[package]]
 name = "equivalent"
