@@ -1,6 +1,10 @@
 pub mod msgbus;
 
-use crate::service::{PingService, ServiceManager};
+use crate::service::{BlenderService, PingService, ServiceManager};
+use cuttle_blender_api::{
+    AssignMaterialParams, CreateCubeParams, CreateMaterialParams, CreateSphereParams,
+    GetMaterialParams, GetObjectParams, MaterialData, ObjectData,
+};
 use flume::{Receiver, Sender};
 use serde::{Deserialize, Serialize};
 use std::thread;
@@ -11,6 +15,17 @@ use tracing::{error, info};
 pub enum ServiceMessage {
     Ping,
     Stop,
+    // Blender operations
+    CreateCube(CreateCubeParams),
+    CreateSphere(CreateSphereParams),
+    CreateMaterial(CreateMaterialParams),
+    AssignMaterial(AssignMaterialParams),
+    GetObject(GetObjectParams),
+    GetMaterial(GetMaterialParams),
+    ListObjects,
+    ListMaterials,
+    ListMeshes,
+    ClearScene,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -18,6 +33,14 @@ pub enum ServiceResponse {
     Pong,
     Stopped,
     Error(String),
+    // Blender operation responses
+    Created, // For successful create operations
+    ObjectData(ObjectData),
+    MaterialData(MaterialData),
+    ObjectList(Vec<String>),
+    MaterialList(Vec<String>),
+    MeshList(Vec<String>),
+    SceneCleared,
 }
 
 pub struct PyBridge {
@@ -70,6 +93,7 @@ impl PyBridge {
                 // Initialize service manager with basic services
                 let mut service_manager = ServiceManager::new();
                 service_manager.add_service(Box::new(PingService::new("main")));
+                service_manager.add_service(Box::new(BlenderService::new("blender")));
 
                 if let Err(e) = service_manager.start_all().await {
                     error!("Failed to start services: {}", e);

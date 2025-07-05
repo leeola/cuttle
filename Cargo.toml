@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["blender_api", "cuttle", "lang", "py"]
+members = ["bin", "blender_api", "cuttle", "lang", "py"]
 
 [workspace.lints.clippy]
 all = "warn"

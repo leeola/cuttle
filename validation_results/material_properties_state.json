@@ -1,0 +1,85 @@
+{
+  "material_count": 4,
+  "materials": [
+    {
+      "base_color": {
+        "a": 1.0,
+        "b": 0.20000000298023224,
+        "g": 0.20000000298023224,
+        "r": 0.800000011920929
+      },
+      "metallic": 0.0,
+      "name": "TestMaterial",
+      "node_count": 1,
+      "roughness": 0.5,
+      "use_nodes": true
+    },
+    {
+      "base_color": {
+        "a": 1.0,
+        "b": 0.699999988079071,
+        "g": 0.699999988079071,
+        "r": 0.699999988079071
+      },
+      "metallic": 1.0,
+      "name": "MetallicMaterial",
+      "node_count": 1,
+      "roughness": 0.10000000149011612,
+      "use_nodes": true
+    },
+    {
+      "base_color": {
+        "a": 1.0,
+        "b": 0.20000000298023224,
+        "g": 0.20000000298023224,
+        "r": 0.800000011920929
+      },
+      "metallic": 0.0,
+      "name": "RedMaterial",
+      "node_count": 1,
+      "roughness": 0.4000000059604645,
+      "use_nodes": true
+    },
+    {
+      "base_color": {
+        "a": 1.0,
+        "b": 0.800000011920929,
+        "g": 0.20000000298023224,
+        "r": 0.20000000298023224
+      },
+      "metallic": 0.10000000149011612,
+      "name": "BlueMaterial",
+      "node_count": 1,
+      "roughness": 0.30000001192092896,
+      "use_nodes": true
+    }
+  ],
+  "object_count": 1,
+  "objects": [
+    {
+      "face_count": 6,
+      "location": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "materials": [
+        "MetallicMaterial"
+      ],
+      "name": "MetallicCube",
+      "object_type": "MESH",
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "vertex_count": 8
+    }
+  ],
+  "timestamp": "2025-07-04T23:47:59.806346965+00:00"
+}

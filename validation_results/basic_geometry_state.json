@@ -1,0 +1,46 @@
+{
+  "material_count": 1,
+  "materials": [
+    {
+      "base_color": {
+        "a": 1.0,
+        "b": 0.20000000298023224,
+        "g": 0.20000000298023224,
+        "r": 0.800000011920929
+      },
+      "metallic": 0.0,
+      "name": "TestMaterial",
+      "node_count": 1,
+      "roughness": 0.5,
+      "use_nodes": true
+    }
+  ],
+  "object_count": 1,
+  "objects": [
+    {
+      "face_count": 6,
+      "location": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "materials": [
+        "TestMaterial"
+      ],
+      "name": "TestCube",
+      "object_type": "MESH",
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 2.0,
+        "y": 2.0,
+        "z": 2.0
+      },
+      "vertex_count": 8
+    }
+  ],
+  "timestamp": "2025-07-04T23:47:59.461641357+00:00"
+}

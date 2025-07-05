@@ -1,8 +1,11 @@
 [package]
 name = "cuttle_blender_api"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Lee Olayvar <leegit@fastmail.com>"]
 license-file = "../LICENSE"
 
 [dependencies]
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+anyhow = "1.0"

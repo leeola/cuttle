@@ -8,6 +8,7 @@ license-file = "../LICENSE"
 [dependencies]
 pyo3 = { version = "0.22", features = ["extension-module"] }
 cuttle = { path = "../cuttle" }
+serde_json = "1.0"
 
 [lib]
 name = "cuttle_py"

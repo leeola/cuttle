@@ -59,11 +59,23 @@ impl ServiceManager {
     }
 
     pub async fn handle_message(&mut self, msg: ServiceMessage) -> ServiceResponse {
-        // For now, just handle basic messages
-        // Later, we'll route messages to appropriate services
+        // Route messages to appropriate services
+        // For now, handle basic messages here and route Blender messages to services
         match msg {
             ServiceMessage::Ping => ServiceResponse::Pong,
             ServiceMessage::Stop => ServiceResponse::Stopped,
+            // Route Blender messages to the first available service that can handle them
+            blender_msg => {
+                for service in &mut self.services {
+                    let response = service.handle_message(blender_msg.clone()).await;
+                    // If the service handled it (didn't return Error), return the response
+                    if !matches!(response, ServiceResponse::Error(_)) {
+                        return response;
+                    }
+                }
+                // If no service handled it, return an error
+                ServiceResponse::Error("No service available to handle message".to_string())
+            }
         }
     }
 }
@@ -97,11 +109,93 @@ impl Service for PingService {
         match msg {
             ServiceMessage::Ping => ServiceResponse::Pong,
             ServiceMessage::Stop => ServiceResponse::Stopped,
+            // PingService doesn't handle Blender operations
+            _ => ServiceResponse::Error("PingService doesn't handle this message type".to_string()),
         }
     }
 
     async fn stop(&mut self) -> Result<(), ServiceError> {
         info!("Stopping PingService: {}", self.name);
+        Ok(())
+    }
+}
+
+// BlenderService implementation
+pub struct BlenderService {
+    name: String,
+    api: Box<dyn cuttle_blender_api::BlenderApi + Send + Sync>,
+}
+
+impl BlenderService {
+    pub fn new(name: impl Into<String>) -> Self {
+        Self {
+            name: name.into(),
+            // Use mock implementation for now
+            api: Box::new(cuttle_blender_api::MockBlenderApi::new()),
+        }
+    }
+}
+
+#[async_trait]
+impl Service for BlenderService {
+    async fn start(&mut self) -> Result<(), ServiceError> {
+        info!("Starting BlenderService: {}", self.name);
+        Ok(())
+    }
+
+    async fn handle_message(&mut self, msg: ServiceMessage) -> ServiceResponse {
+        info!("BlenderService {} handling message: {:?}", self.name, msg);
+
+        match msg {
+            ServiceMessage::CreateCube(params) => match self.api.create_cube(params) {
+                Ok(()) => ServiceResponse::Created,
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::CreateSphere(params) => match self.api.create_sphere(params) {
+                Ok(()) => ServiceResponse::Created,
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::CreateMaterial(params) => match self.api.create_material(params) {
+                Ok(()) => ServiceResponse::Created,
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::AssignMaterial(params) => match self.api.assign_material(params) {
+                Ok(()) => ServiceResponse::Created,
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::GetObject(params) => match self.api.get_object(params) {
+                Ok(data) => ServiceResponse::ObjectData(data),
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::GetMaterial(params) => match self.api.get_material(params) {
+                Ok(data) => ServiceResponse::MaterialData(data),
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::ListObjects => match self.api.list_objects() {
+                Ok(objects) => ServiceResponse::ObjectList(objects),
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::ListMaterials => match self.api.list_materials() {
+                Ok(materials) => ServiceResponse::MaterialList(materials),
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::ListMeshes => match self.api.list_meshes() {
+                Ok(meshes) => ServiceResponse::MeshList(meshes),
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            ServiceMessage::ClearScene => match self.api.clear_scene() {
+                Ok(()) => ServiceResponse::SceneCleared,
+                Err(e) => ServiceResponse::Error(e.to_string()),
+            },
+            // BlenderService doesn't handle basic messages
+            _ => ServiceResponse::Error(
+                "BlenderService doesn't handle this message type".to_string(),
+            ),
+        }
+    }
+
+    async fn stop(&mut self) -> Result<(), ServiceError> {
+        info!("Stopping BlenderService: {}", self.name);
         Ok(())
     }
 }

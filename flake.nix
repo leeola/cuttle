@@ -29,6 +29,7 @@
             pkg-config
             binutils
             gcc
+            python3
             rust-analyzer
             # using a hardcoded rustfmt version to support nightly rustfmt features.
             rust-bin.nightly."2025-06-26".rustfmt

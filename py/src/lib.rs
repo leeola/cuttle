@@ -70,6 +70,19 @@ fn try_recv_response() -> PyResult<Option<String>> {
         ServiceResponse::Pong => "pong".to_string(),
         ServiceResponse::Stopped => "stopped".to_string(),
         ServiceResponse::Error(msg) => format!("error: {msg}"),
+        ServiceResponse::Created => "created".to_string(),
+        ServiceResponse::ObjectData(data) => format!(
+            "object_data: {}",
+            serde_json::to_string(&data).unwrap_or_else(|_| "invalid_data".to_string())
+        ),
+        ServiceResponse::MaterialData(data) => format!(
+            "material_data: {}",
+            serde_json::to_string(&data).unwrap_or_else(|_| "invalid_data".to_string())
+        ),
+        ServiceResponse::ObjectList(list) => format!("object_list: {}", list.join(",")),
+        ServiceResponse::MaterialList(list) => format!("material_list: {}", list.join(",")),
+        ServiceResponse::MeshList(list) => format!("mesh_list: {}", list.join(",")),
+        ServiceResponse::SceneCleared => "scene_cleared".to_string(),
     });
 
     Ok(result)
